@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useState } from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { motion, type Variants } from "framer-motion"
@@ -43,6 +43,7 @@ const itemVariants: Variants = {
 export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const event = getEventById(id)
+  const [flippedCard, setFlippedCard] = useState<string | null>(null)
 
   if (!event) {
     notFound()
@@ -174,9 +175,20 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.55, delay: index * 0.06 }}
-                  className="group h-[470px] [perspective:1400px] sm:h-[500px]"
+                  className="group h-[470px] cursor-pointer [perspective:1400px] sm:h-[500px]"
+                  onClick={() =>
+                    setFlippedCard((current) =>
+                      current === `${card.title}-${card.subtitle}` ? null : `${card.title}-${card.subtitle}`
+                    )
+                  }
                 >
-                  <div className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-active:[transform:rotateY(180deg)]">
+                  <div
+                    className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
+                    style={{
+                      transform:
+                        flippedCard === `${card.title}-${card.subtitle}` ? "rotateY(180deg)" : undefined,
+                    }}
+                  >
                     <GlassCard className="absolute inset-0 flex h-full flex-col justify-between px-5 pt-6 pb-7 [backface-visibility:hidden]">
                       <div>
                         <div className="mb-4 flex items-start justify-between gap-4">

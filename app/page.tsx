@@ -138,29 +138,33 @@ export default function EventsPage() {
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <Link href={`/events/${event.id}`}>
-                  <GlassCard hover className="h-full p-6">
+                  <GlassCard hover className="flex h-full flex-col px-5 pt-6 pb-7">
                     <motion.div
-                      className="mb-4 text-5xl"
+                      className="mb-5 text-5xl"
                       animate={{ y: [0, -6, 0], rotate: [0, -2, 0, 2, 0] }}
                       transition={{ duration: 5 + index * 0.35, repeat: Infinity, ease: "easeInOut" }}
                     >
                       {event.emoji}
                     </motion.div>
-                    <h2 className="mb-2 text-2xl font-bold tracking-tight">
+                    <h2 className="mb-3 text-2xl font-bold tracking-tight">
                       <GradientText glow={false}>{event.name}</GradientText>
                     </h2>
-                    <p className="mb-4 text-sm text-white/50">{event.tagline}</p>
-                    <p className="mb-6 line-clamp-2 text-sm text-white/70">
+                    <p className="mb-5 text-sm text-white/50">{event.tagline}</p>
+                    <p className="mb-8 line-clamp-2 text-sm leading-6 text-white/70">
                       {event.description}
                     </p>
 
-                    <div className="flex items-center justify-between border-t border-white/10 pt-4">
-                      <div className="text-sm">
+                    <div className="mt-auto flex items-end justify-between gap-4 border-t border-white/10 pt-5">
+                      <div className="min-w-0 pr-3 text-sm leading-6">
                         <span className="text-white/50">Team: </span>
-                        <span className="text-white">{event.teamSize}</span>
+                        <span className="whitespace-nowrap text-white">{event.teamSize}</span>
                       </div>
                       <motion.div
-                        className="animate-soft-pulse rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-4 py-1 text-sm font-semibold text-white"
+                        className={`animate-soft-pulse rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 font-semibold text-white ${
+                          event.id === "battlegrid"
+                            ? "max-w-[14rem] px-4 py-2 text-right text-[12px] leading-5 whitespace-normal"
+                            : "shrink-0 px-4 py-1.5 text-sm"
+                        }`}
                         whileHover={{ scale: 1.06 }}
                       >
                         {event.entryFee}

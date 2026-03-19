@@ -187,7 +187,7 @@ export const eventsData: EventData[] = [
         details: [
           "Same rules as FF Squad",
           "Map: Random each round",
-          "Mobile only â€” NO emulators",
+          "Mobile only - NO emulators",
           "No restarts for disconnections"
         ],
         scoring: [
