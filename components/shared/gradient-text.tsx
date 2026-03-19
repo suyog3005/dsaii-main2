@@ -11,8 +11,8 @@ export function GradientText({ children, className, glow = true }: GradientTextP
   return (
     <span
       className={cn(
-        "bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent",
-        glow && "drop-shadow-[0_0_25px_rgba(0,242,255,0.5)]",
+        "animate-gradient-shift bg-gradient-to-r from-cyan-300 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent",
+        glow && "drop-shadow-[0_0_18px_rgba(34,211,238,0.35)] [text-shadow:0_0_28px_rgba(217,70,239,0.18)]",
         className
       )}
     >

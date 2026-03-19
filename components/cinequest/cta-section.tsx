@@ -47,7 +47,7 @@ export function CTASection() {
             <a
               href="#register"
               id="register"
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FACC15] to-[#FCD34D] px-8 py-4 text-lg font-bold text-black transition-all duration-300 hover:scale-105"
+              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FACC15] to-[#FCD34D] px-8 py-4 text-lg font-bold text-black transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:from-[#FFE047] hover:to-[#FDE68A] hover:shadow-[0_0_24px_rgba(250,204,21,0.55),0_0_48px_rgba(251,191,36,0.35)]"
               style={{
                 boxShadow: "0 0 30px rgba(250, 204, 21, 0.4), 0 0 60px rgba(250, 204, 21, 0.2)",
               }}

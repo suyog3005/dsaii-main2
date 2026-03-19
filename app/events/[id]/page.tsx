@@ -3,7 +3,7 @@
 import { use } from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
 import { Trophy, Users, Clock, Shield, ArrowLeft } from "lucide-react"
 import { PlexusBackground } from "@/components/shared/plexus-background"
 import { GlassCard } from "@/components/shared/glass-card"
@@ -11,6 +11,34 @@ import { GradientText } from "@/components/shared/gradient-text"
 import { getEventById } from "@/lib/events-data"
 
 const REGISTER_URL = "https://dsaii-submission.vercel.app/"
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
+const listVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, x: -18 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+}
 
 export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -25,51 +53,52 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
       <PlexusBackground />
 
       <div className="relative z-10 px-4 py-8 sm:px-6 lg:px-8">
-        {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-        >
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
           <Link
             href="/"
-            className="mb-8 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-white"
+            className="mb-8 inline-flex items-center gap-2 text-white/60 transition-all duration-300 hover:-translate-x-1 hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Events
           </Link>
         </motion.div>
 
-        {/* Hero Section */}
         <motion.header
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -26 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mb-16 overflow-hidden text-center"
         >
-          <div className="mb-4 text-7xl">{event.emoji}</div>
+          <div className="animate-aurora absolute left-[14%] top-[6%] -z-10 h-36 w-36 rounded-full bg-cyan-500/10 blur-3xl" />
+          <div className="animate-aurora absolute right-[16%] top-[12%] -z-10 h-44 w-44 rounded-full bg-fuchsia-500/12 blur-3xl" style={{ animationDelay: "-4s" }} />
+
+          <motion.div
+            className="mb-4 text-7xl"
+            animate={{ y: [0, -7, 0], rotate: [0, -1.8, 0, 1.8, 0] }}
+            transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            {event.emoji}
+          </motion.div>
           <h1 className="mb-4 text-5xl font-bold tracking-tighter sm:text-6xl lg:text-8xl">
             <GradientText>{event.name}</GradientText>
           </h1>
-          <p className="mb-2 text-xl text-white/60">{event.tagline}</p>
+          <motion.p className="mb-2 text-xl text-white/60" animate={{ opacity: [0.65, 1, 0.65] }} transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}>
+            {event.tagline}
+          </motion.p>
           <p className="mb-8 text-lg text-cyan-400">{event.date}</p>
-          <Link
-            href={REGISTER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25"
-          >
-            Register Now - {event.entryFee}
-          </Link>
+          <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
+            <Link
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-shimmer inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:from-cyan-400 hover:via-fuchsia-500 hover:to-pink-500 hover:shadow-[0_0_22px_rgba(34,211,238,0.45),0_0_42px_rgba(217,70,239,0.35),0_0_60px_rgba(236,72,153,0.26)]"
+            >
+              Register Now - {event.entryFee}
+            </Link>
+          </motion.div>
         </motion.header>
 
-        {/* Description */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mb-16 max-w-3xl"
-        >
+        <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.35 }} className="mx-auto mb-16 max-w-3xl">
           <GlassCard className="p-8">
             <p className="text-center text-lg leading-relaxed text-white/80">
               {event.description}
@@ -77,114 +106,98 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
           </GlassCard>
         </motion.div>
 
-        {/* Info Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mx-auto mb-16 max-w-5xl"
-        >
+        <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-5xl">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <GlassCard className="p-6 text-center">
-              <Trophy className="mx-auto mb-3 h-8 w-8 text-cyan-400" />
-              <p className="mb-1 text-sm text-white/50">Prize Pool</p>
-              <p className="text-2xl font-bold text-white">{event.prizePool}</p>
-            </GlassCard>
-
-            <GlassCard className="p-6 text-center">
-              <Users className="mx-auto mb-3 h-8 w-8 text-fuchsia-400" />
-              <p className="mb-1 text-sm text-white/50">Team Size</p>
-              <p className="text-2xl font-bold text-white">{event.teamSize}</p>
-            </GlassCard>
-
-            <GlassCard className="p-6 text-center">
-              <Clock className="mx-auto mb-3 h-8 w-8 text-cyan-400" />
-              <p className="mb-1 text-sm text-white/50">Duration</p>
-              <p className="text-2xl font-bold text-white">{event.duration}</p>
-            </GlassCard>
-
-            <GlassCard className="p-6 text-center">
-              <Shield className="mx-auto mb-3 h-8 w-8 text-fuchsia-400" />
-              <p className="mb-1 text-sm text-white/50">Fair Play</p>
-              <p className="text-2xl font-bold text-white">Enforced</p>
-            </GlassCard>
+            {[
+              { label: "Prize Pool", value: event.prizePool, icon: Trophy, color: "text-cyan-400" },
+              { label: "Team Size", value: event.teamSize, icon: Users, color: "text-fuchsia-400" },
+              { label: "Duration", value: event.duration, icon: Clock, color: "text-cyan-400" },
+              { label: "Fair Play", value: "Enforced", icon: Shield, color: "text-fuchsia-400" },
+            ].map((item, index) => {
+              const Icon = item.icon
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.55, delay: index * 0.08 }}
+                  whileHover={{ y: -8, scale: 1.03 }}
+                >
+                  <GlassCard className="p-6 text-center">
+                    <motion.div animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 3 + index * 0.3, repeat: Infinity, ease: "easeInOut" }}>
+                      <Icon className={`mx-auto mb-3 h-8 w-8 ${item.color}`} />
+                    </motion.div>
+                    <p className="mb-1 text-sm text-white/50">{item.label}</p>
+                    <p className="text-2xl font-bold text-white">{item.value}</p>
+                  </GlassCard>
+                </motion.div>
+              )
+            })}
           </div>
         </motion.div>
 
-        {/* Rules Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mx-auto mb-16 max-w-3xl"
-        >
+        <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-3xl">
           <h2 className="mb-6 text-center text-3xl font-bold tracking-tight">
             <GradientText>Rules & Guidelines</GradientText>
           </h2>
           <GlassCard className="p-8">
-            <ul className="space-y-4">
+            <motion.ul variants={listVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.25 }} className="space-y-4">
               {event.rules.map((rule, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 text-xs font-bold">
+                <motion.li key={index} variants={itemVariants} whileHover={{ x: 6 }} className="flex items-start gap-3">
+                  <span className="animate-soft-pulse flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 text-xs font-bold">
                     {index + 1}
                   </span>
                   <span className="text-white/80">{rule}</span>
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
           </GlassCard>
         </motion.div>
 
-        {/* Schedule Timeline */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mx-auto mb-16 max-w-3xl"
-        >
+        <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-3xl">
           <h2 className="mb-6 text-center text-3xl font-bold tracking-tight">
             <GradientText>Event Schedule</GradientText>
           </h2>
           <GlassCard className="p-8">
             <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-1.75 top-2 h-[calc(100%-16px)] w-0.5 bg-linear-to-b from-cyan-500 to-fuchsia-500" />
-              
-              <div className="space-y-6">
+              <div className="animate-soft-pulse absolute left-1.75 top-2 h-[calc(100%-16px)] w-0.5 bg-linear-to-b from-cyan-500 via-fuchsia-500 to-cyan-400" />
+
+              <motion.div variants={listVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.25 }} className="space-y-6">
                 {event.schedule.map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="relative z-10 mt-1.5 h-4 w-4 shrink-0 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 shadow-lg shadow-cyan-500/50" />
+                  <motion.div key={index} variants={itemVariants} whileHover={{ x: 8 }} className="flex gap-4">
+                    <motion.div
+                      className="relative z-10 mt-1.5 h-4 w-4 shrink-0 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 shadow-lg shadow-cyan-500/50"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.12 }}
+                    />
                     <div className="flex-1">
                       <p className="font-mono text-sm text-cyan-400">{item.time}</p>
                       <p className="text-white">{item.activity}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </GlassCard>
         </motion.div>
 
-        {/* Footer CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center"
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }} className="text-center">
           <GlassCard className="mx-auto max-w-2xl p-8">
             <h3 className="mb-4 text-2xl font-bold">Ready to Compete?</h3>
             <p className="mb-6 text-white/60">
               Secure your spot now and be part of something extraordinary.
             </p>
-            <Link
-              href={REGISTER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25"
-            >
-              Register Now - {event.entryFee}
-            </Link>
+            <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                href={REGISTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button-shimmer inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:from-cyan-400 hover:via-fuchsia-500 hover:to-pink-500 hover:shadow-[0_0_22px_rgba(34,211,238,0.45),0_0_42px_rgba(217,70,239,0.35),0_0_60px_rgba(236,72,153,0.26)]"
+              >
+                Register Now - {event.entryFee}
+              </Link>
+            </motion.div>
           </GlassCard>
         </motion.div>
       </div>
