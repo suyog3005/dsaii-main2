@@ -173,10 +173,10 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.55, delay: index * 0.06 }}
-                  className="group h-[420px] [perspective:1400px]"
+                  className="group h-[470px] [perspective:1400px] sm:h-[500px]"
                 >
                   <div className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-active:[transform:rotateY(180deg)]">
-                    <GlassCard className="absolute inset-0 flex h-full flex-col justify-between p-6 [backface-visibility:hidden]">
+                    <GlassCard className="absolute inset-0 flex h-full flex-col justify-between px-5 pt-6 pb-7 [backface-visibility:hidden]">
                       <div>
                         <div className="mb-4 flex items-start justify-between gap-4">
                           <div>
@@ -202,7 +202,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                       </div>
                     </GlassCard>
 
-                    <GlassCard className="absolute inset-0 flex h-full min-h-0 flex-col p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <GlassCard className="absolute inset-0 flex h-full min-h-0 flex-col px-5 pt-6 pb-7 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                       <div className="mb-4 flex items-center justify-between gap-3">
                         <div>
                           <p className="text-sm font-medium tracking-[0.3em] text-cyan-400">{card.title}</p>
@@ -211,7 +211,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
                         <Shield className="h-6 w-6 text-fuchsia-400" />
                       </div>
 
-                      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2 pb-3 text-sm text-white/78">
+                      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-2 pb-4 text-sm text-white/78">
                         <div>
                           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Rules</p>
                           <div className="space-y-2">

@@ -142,7 +142,7 @@ export const eventsData: EventData[] = [
     tagline: "Enter the Arena. Claim Victory.",
     description: "BATTLEGRID is a competitive esports tournament bringing together players from across popular titles like BGMI, Free Fire, and Valorant. Designed for both casual and serious gamers, the event provides a platform to showcase team coordination, strategy, and in-game skills.Participants will compete in structured matches across different formats, battling through rounds to secure a place at the top. Whether itâ€™s tactical gameplay in Valorant or survival instincts in battle royale games, BATTLEGRID tests precision, communication, and decision-making under pressure",
     teamSize: "Duo or Squad or Team of 5 Members",
-    entryFee: "₹499 (Valorant) / ₹299 (BGMI)",
+    entryFee: "₹250 (Valorant) / ₹200 (BGMI) / ₹200 (Free Fire)",
     prizePool: "₹12,000",
     date: "April 5-6, 2026",
     duration: "2 Days",
