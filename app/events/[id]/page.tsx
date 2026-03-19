@@ -50,7 +50,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
   }
 
   const isBattlegrid = event.id === "battlegrid" && Boolean(event.gameCards?.length)
-  const hideSchedule = event.id === "cinequest"
+  const hideSchedule = event.id === "cinequest" || event.id === "geovoyager" || event.id === "contentflux"
 
   return (
     <div className="relative min-h-screen text-white">

@@ -40,13 +40,9 @@ export const eventsData: EventData[] = [
       "Evaluation will be feature-focused, prioritizing functionality and usability"
     ],
     schedule: [
-      { time: "09:00 AM", activity: "Registration & Check-in" },
-      { time: "10:00 AM", activity: "Problem Statement Reveal" },
-      { time: "10:30 AM", activity: "Hacking Begins" },
-      { time: "01:00 PM", activity: "Lunch Break" },
-      { time: "04:00 PM", activity: "Code Freeze" },
-      { time: "04:30 PM", activity: "Presentations Begin" },
-      { time: "06:00 PM", activity: "Results & Awards" }
+      { time: "10:00 AM", activity: " Hackathon Begins" },
+      { time: "10:00 AM - 4:00 PM", activity: "Development Phase (Lunch time will be provided)" },
+      { time: "4:00 PM - 6:00 PM", activity: "Presentations & Judging" }
     ],
     emoji: ""
   },
