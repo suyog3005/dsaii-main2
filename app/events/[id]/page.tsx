@@ -49,6 +49,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
   }
 
   const isBattlegrid = event.id === "battlegrid" && Boolean(event.gameCards?.length)
+  const hideSchedule = event.id === "cinequest"
 
   return (
     <div className="relative min-h-screen text-white">
@@ -244,7 +245,7 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
               ))}
             </div>
           </motion.div>
-        ) : (
+        ) : hideSchedule ? null : (
           <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-3xl">
             <h2 className="mb-6 text-center text-3xl font-bold tracking-tight">
               <GradientText>Event Schedule</GradientText>
