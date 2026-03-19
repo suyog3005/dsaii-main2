@@ -48,6 +48,8 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
     notFound()
   }
 
+  const isBattlegrid = event.id === "battlegrid" && Boolean(event.gameCards?.length)
+
   return (
     <div className="relative min-h-screen text-white">
       <PlexusBackground />
@@ -155,32 +157,121 @@ export default function EventPage({ params }: { params: Promise<{ id: string }> 
           </GlassCard>
         </motion.div>
 
-        <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-3xl">
-          <h2 className="mb-6 text-center text-3xl font-bold tracking-tight">
-            <GradientText>Event Schedule</GradientText>
-          </h2>
-          <GlassCard className="p-8">
-            <div className="relative">
-              <div className="animate-soft-pulse absolute left-1.75 top-2 h-[calc(100%-16px)] w-0.5 bg-linear-to-b from-cyan-500 via-fuchsia-500 to-cyan-400" />
+        {isBattlegrid ? (
+          <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.12 }} className="mx-auto mb-16 max-w-7xl">
+            <h2 className="mb-3 text-center text-3xl font-bold tracking-tight">
+              <GradientText>Game Modes</GradientText>
+            </h2>
+            <p className="mb-8 text-center text-white/55">
+              Hover on desktop or tap on mobile to flip each card.
+            </p>
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {event.gameCards?.map((card, index) => (
+                <motion.div
+                  key={`${card.title}-${card.subtitle}`}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.55, delay: index * 0.06 }}
+                  className="group h-[420px] [perspective:1400px]"
+                >
+                  <div className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-active:[transform:rotateY(180deg)]">
+                    <GlassCard className="absolute inset-0 flex h-full flex-col justify-between p-6 [backface-visibility:hidden]">
+                      <div>
+                        <div className="mb-4 flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-sm font-medium tracking-[0.3em] text-cyan-400">{card.title}</p>
+                            <h3 className="mt-2 text-3xl font-bold text-white">{card.subtitle}</h3>
+                          </div>
+                          <span className="rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 px-4 py-1 text-sm font-semibold text-white">
+                            {card.entryFee}
+                          </span>
+                        </div>
+                        <p className="mb-6 text-sm text-white/55">{card.format}</p>
+                        <div className="space-y-3">
+                          {card.details.slice(0, 3).map((detail) => (
+                            <div key={detail} className="flex items-start gap-3 text-sm text-white/78">
+                              <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-fuchsia-400" />
+                              <span>{detail}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
+                        Flip for full rules and scoring
+                      </div>
+                    </GlassCard>
 
-              <motion.div variants={listVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.25 }} className="space-y-6">
-                {event.schedule.map((item, index) => (
-                  <motion.div key={index} variants={itemVariants} whileHover={{ x: 8 }} className="flex gap-4">
-                    <motion.div
-                      className="relative z-10 mt-1.5 h-4 w-4 shrink-0 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 shadow-lg shadow-cyan-500/50"
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.12 }}
-                    />
-                    <div className="flex-1">
-                      <p className="font-mono text-sm text-cyan-400">{item.time}</p>
-                      <p className="text-white">{item.activity}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                    <GlassCard className="absolute inset-0 flex h-full min-h-0 flex-col p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                      <div className="mb-4 flex items-center justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-medium tracking-[0.3em] text-cyan-400">{card.title}</p>
+                          <h3 className="mt-2 text-2xl font-bold text-white">{card.subtitle}</h3>
+                        </div>
+                        <Shield className="h-6 w-6 text-fuchsia-400" />
+                      </div>
+
+                      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2 pb-3 text-sm text-white/78">
+                        <div>
+                          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Rules</p>
+                          <div className="space-y-2">
+                            {card.details.map((detail) => (
+                              <div key={detail} className="flex items-start gap-3">
+                                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
+                                <span>{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {card.scoring?.length ? (
+                          <div>
+                            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Points System</p>
+                            <div className="space-y-2">
+                              {card.scoring.map((rule) => (
+                                <div key={rule} className="flex items-start gap-3">
+                                  <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-fuchsia-400" />
+                                  <span>{rule}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    </GlassCard>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </GlassCard>
-        </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} className="mx-auto mb-16 max-w-3xl">
+            <h2 className="mb-6 text-center text-3xl font-bold tracking-tight">
+              <GradientText>Event Schedule</GradientText>
+            </h2>
+            <GlassCard className="p-8">
+              <div className="relative">
+                <div className="animate-soft-pulse absolute left-1.75 top-2 h-[calc(100%-16px)] w-0.5 bg-linear-to-b from-cyan-500 via-fuchsia-500 to-cyan-400" />
+
+                <motion.div variants={listVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.25 }} className="space-y-6">
+                  {event.schedule.map((item, index) => (
+                    <motion.div key={index} variants={itemVariants} whileHover={{ x: 8 }} className="flex gap-4">
+                      <motion.div
+                        className="relative z-10 mt-1.5 h-4 w-4 shrink-0 rounded-full bg-linear-to-r from-cyan-500 to-fuchsia-500 shadow-lg shadow-cyan-500/50"
+                        animate={{ scale: [1, 1.3, 1] }}
+                        transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.12 }}
+                      />
+                      <div className="flex-1">
+                        <p className="font-mono text-sm text-cyan-400">{item.time}</p>
+                        <p className="text-white">{item.activity}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </GlassCard>
+          </motion.div>
+        )}
 
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }} className="text-center">
           <GlassCard className="mx-auto max-w-2xl p-8">

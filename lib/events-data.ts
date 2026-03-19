@@ -11,6 +11,14 @@ export interface EventData {
   duration: string
   rules: string[]
   schedule: { time: string; activity: string }[]
+  gameCards?: {
+    title: string
+    subtitle: string
+    entryFee: string
+    format: string
+    details: string[]
+    scoring?: string[]
+  }[]
 }
 
 export const eventsData: EventData[] = [
@@ -139,17 +147,113 @@ export const eventsData: EventData[] = [
     date: "April 5-6, 2026",
     duration: "2 Days",
     rules: [
-      "Players must use their own peripherals",
-      "PCs will be provided at the venue",
-      "Standard tournament rules apply",
-      "Anti-cheat monitoring active throughout"
+      "All matches are fully online — play from your own device",
+      "IGN & Game UID must match registration exactly — mismatch = DQ",
+      "Be online 15 mins before your match",
+      "Late joiners after 5 mins of room creation = disqualified",
+      "Hacks/cheats/third-party tools = permanent ban",
+      "Teaming with opponents in BR games = both teams DQ'd",
+      "Send final scoreboard screenshot in this group within 5 mins of match end",
+      "Organizer's decision is final",
+      "Toxic behavior = disqualification"
+
     ],
-    schedule: [
-      { time: "Day 1 - 10:00 AM", activity: "Valorant Qualifiers Begin" },
-      { time: "Day 1 - 04:00 PM", activity: "BGMI Qualifiers Begin" },
-      { time: "Day 2 - 10:00 AM", activity: "Semi-Finals (Both Games)" },
-      { time: "Day 2 - 02:00 PM", activity: "Grand Finals" },
-      { time: "Day 2 - 06:00 PM", activity: "Prize Ceremony" }
+    schedule: [],
+    gameCards: [
+      {
+        title: "FREE FIRE",
+        subtitle: "Squad",
+        entryFee: "₹200",
+        format: "4 players | TPP Classic Squad",
+        details: [
+          "Map: Random each round",
+          "Mobile only - NO emulators",
+          "All 4 members must be in room before start",
+          "No restarts for disconnections"
+        ],
+        scoring: [
+          "1st (Booyah!) - 10 pts",
+          "2nd - 6 pts",
+          "3rd - 4 pts",
+          "4th - 3 pts | 5th - 2 pts",
+          "6th-10th - 1 pt | Per kill - +1 pt"
+        ]
+      },
+      {
+        title: "FREE FIRE",
+        subtitle: "Duo",
+        entryFee: "₹120",
+        format: "2 players | TPP Classic Duo",
+        details: [
+          "Same rules as FF Squad",
+          "Map: Random each round",
+          "Mobile only â€” NO emulators",
+          "No restarts for disconnections"
+        ],
+        scoring: [
+          "1st (Booyah!) - 10 pts",
+          "2nd - 6 pts",
+          "3rd - 4 pts",
+          "4th - 3 pts | 5th - 2 pts",
+          "6th-10th - 1 pt | Per kill - +1 pt"
+        ]
+      },
+      {
+        title: "BGMI",
+        subtitle: "Squad",
+        entryFee: "₹200",
+        format: "4 players | TPP Classic Squad",
+        details: [
+          "Map: Random (Erangel/Miramar/Sanhok/Vikendi)",
+          "BGMI India version only - PUBG Mobile not accepted",
+          "iOS & Android only - NO emulators",
+          "All 4 members must be in room before start",
+          "No restarts for disconnections"
+        ],
+        scoring: [
+          "1st (Chicken Dinner) - 10 pts",
+          "2nd - 6 pts",
+          "3rd - 4 pts",
+          "4th - 3 pts | 5th - 2 pts",
+          "6th-10th - 1 pt | Per kill - +1 pt"
+        ]
+      },
+      {
+        title: "BGMI",
+        subtitle: "Duo",
+        entryFee: "₹120",
+        format: "2 players | TPP Classic Duo",
+        details: [
+          "Same rules as BGMI Squad",
+          "Map: Random (Erangel/Miramar/Sanhok/Vikendi)",
+          "BGMI India version only - PUBG Mobile not accepted",
+          "iOS & Android only - NO emulators",
+          "No restarts for disconnections"
+        ],
+        scoring: [
+          "1st (Chicken Dinner) - 10 pts",
+          "2nd - 6 pts",
+          "3rd - 4 pts",
+          "4th - 3 pts | 5th - 2 pts",
+          "6th-10th - 1 pt | Per kill - +1 pt"
+        ]
+      },
+      {
+        title: "VALORANT",
+        subtitle: "5v5",
+        entryFee: "₹250",
+        format: "Mumbai Server",
+        details: [
+          "All agents allowed",
+          "Map: Random from Ascent, Bind, Haven, Lotus, Pearl",
+          "Early rounds: Spike Rush (first to 4)",
+          "Knockouts & Final: Standard (first to 13)",
+          "No substitutes allowed",
+          "No mid-match pausing without organizer approval",
+          "No restarts for disconnections",
+          "Overtime: Standard Valorant overtime rules"
+        ]
+      }
     ],
     emoji: ""
   }
